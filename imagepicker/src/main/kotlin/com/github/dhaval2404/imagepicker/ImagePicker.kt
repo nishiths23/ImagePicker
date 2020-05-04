@@ -3,13 +3,12 @@ package com.github.dhaval2404.imagepicker
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.github.dhaval2404.imagepicker.listener.ResultListener
 import com.github.dhaval2404.imagepicker.util.DialogHelper
-import com.github.florent37.inlineactivityresult.kotlin.startForResult
+import com.github.dhaval2404.imagepicker.util.startActivityForResult
 import java.io.File
 
 /**
@@ -338,29 +337,15 @@ open class ImagePicker {
          * Start ImagePickerActivity with given Argument
          */
         private fun startActivity(completionHandler: ((resultCode: Int, data: Intent?) -> Unit)? = null) {
-
-            try {
-                val intent = Intent(activity, ImagePickerActivity::class.java)
-                intent.putExtras(getBundle())
-                if (fragment != null) {
-
-                    fragment?.startForResult(intent) { result ->
-                        completionHandler?.invoke(result.resultCode, result.data)
-                    }?.onFailed { result ->
-                        completionHandler?.invoke(result.resultCode, result.data)
-                    }
-                } else {
-                    (activity as AppCompatActivity).startForResult(intent) { result ->
-                        completionHandler?.invoke(result.resultCode, result.data)
-                    }.onFailed { result ->
-                        completionHandler?.invoke(result.resultCode, result.data)
-                    }
+            val intent = Intent(activity, ImagePickerActivity::class.java)
+            intent.putExtras(getBundle())
+            if (fragment != null) {
+                fragment?.startActivityForResult(intent) { resultCode, data ->
+                    completionHandler?.invoke(resultCode, data)
                 }
-            } catch (e: Exception) {
-                if (e is ClassNotFoundException) {
-                    Toast.makeText(if (fragment != null) fragment!!.context else activity, "InlineActivityResult library not installed falling back to default method, please install " +
-                            "it from https://github.com/florent37/InlineActivityResult if you want to get inline activity results.", Toast.LENGTH_LONG).show()
-                    startActivity(REQUEST_CODE)
+            } else {
+                (activity as AppCompatActivity).startActivityForResult(intent) { resultCode, data ->
+                    completionHandler?.invoke(resultCode, data)
                 }
             }
         }

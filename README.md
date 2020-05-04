@@ -5,8 +5,10 @@
 [![API](https://img.shields.io/badge/API-19%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=19)
 ![Language](https://img.shields.io/badge/language-Kotlin-orange.svg)
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-ImagePicker-green.svg?style=flat )]( https://android-arsenal.com/details/1/7510 )
+[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 [![PRWelcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Dhaval2404/ImagePicker)
-[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/Dhaval2404)
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=102)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/Dhaval2404/ImagePicker/blob/master/LICENSE)
 [![Twitter](https://img.shields.io/twitter/url/https/github.com/Dhaval2404/ImagePicker.svg?style=social)](https://twitter.com/intent/tweet?text=Check+out+an+ImagePicker+library+to+Pick+an+image+from+the+Gallery+or+Capture+an+image+with+Camera.+https%3A%2F%2Fgithub.com%2FDhaval2404%2FImagePicker+%40dhaval2404+%23Android+%23Kotlin+%23AndroidDev)
 
 <div align="center">
@@ -23,7 +25,7 @@ Easy to use and configurable library to **Pick an image from the Gallery or Capt
 Almost 90% of the app that I have developed has an Image upload feature. Along with the image selection, Sometimes  I needed a crop feature for profile image for that I've used uCrop. Most of the time I need to compress the image as the image captured from the camera is more than 5-10 MBs and sometimes we have a requirement to upload images with specific resolution/size, in that case, image compress is the way to go option. To simplify the image pick/capture option I have created ImagePicker library. I hope it will be useful to all.
 
 # 🐱‍🏍Features:
-	
+
 * Pick Gallery Image
 * Pick Image from Google Drive
 * Capture Camera Image
@@ -56,17 +58,12 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
     ```groovy
    implementation 'com.github.dhaval2404:imagepicker:1.7.1'
     ```
-    
+
    **If you are yet to Migrate on AndroidX, Use support build artifact:**
    ```groovy
    implementation 'com.github.dhaval2404:imagepicker-support:1.7.1'
     ```
 
-    **If you want to get the activity result inline in a modern way (lambda) install [InlineActivityResult](https://github.com/florent37/InlineActivityResult) library:**
-   ```groovy
-   implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.1'
-    ```
-    
 2.  <span style="color:red">**If you target Android 10 or higher(targetSdkVersion >= 29)**</span>, set the value of ``requestLegacyExternalStorage`` to true in your app's manifest file:
 
       ```xml
@@ -82,7 +79,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 3. The ImagePicker configuration is created using the builder pattern.
 
 	**Kotlin**
-    
+
 	```kotlin
     ImagePicker.with(this)
             .crop()	    			//Crop image(Optional), Check Customization for more option
@@ -90,9 +87,9 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
             .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
             .start()
     ```
-    
+
     **Java**
-    
+
     ```kotlin
     ImagePicker.Companion.with(this)
             .crop()	    			//Crop image(Optional), Check Customization for more option
@@ -100,11 +97,11 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
             .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
             .start()
     ```
-    
+
 4. Handling results
 
-    
-    **Default method(Preferred way)**<br>
+
+    **Default method**<br>
     Override `onActivityResult` method and handle ImagePicker result.
 
     ```kotlin
@@ -114,12 +111,12 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
              //Image Uri will not be null for RESULT_OK
              val fileUri = data?.data
              imgProfile.setImageURI(fileUri)
-          
+
             //You can get File object from intent
             val file:File = ImagePicker.getFile(data)
-           
+
             //You can also get File Path from intent
-            val filePath:String = ImagePicker.getFilePath(data)     
+            val filePath:String = ImagePicker.getFilePath(data)
          } else if (resultCode == ImagePicker.RESULT_ERROR) {
              Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
          } else {
@@ -128,8 +125,8 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
     }
     ```
 
-    **Inline method (with InlineActivityResult library, Only Works with FragmentActivity and AppCompatActivity) (Not to be used with crop. See [#32](https://github.com/Dhaval2404/ImagePicker/issues/32))**
-    
+    **Inline method (with ActivityResultContract, Only Works with FragmentActivity and AppCompatActivity)**
+
     ```kotlin
     ImagePicker.with(this)
             .compress(1024)         //Final image size will be less than 1 MB(Optional)
@@ -139,10 +136,10 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
                     //Image Uri will not be null for RESULT_OK
                      val fileUri = data?.data
                      imgProfile.setImageURI(fileUri)
-                  
+
                     //You can get File object from intent
                     val file:File = ImagePicker.getFile(data)
-                   
+
                     //You can also get File Path from intent
                     val filePath:String = ImagePicker.getFilePath(data)
                 } else if (resultCode == ImagePicker.RESULT_ERROR) {
@@ -171,7 +168,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 		.start()
     ```
  *  Crop image
- 		
+
     ```kotlin
     ImagePicker.with(this)
 		.crop()	    //Crop image and let user choose aspect ratio.
@@ -300,7 +297,7 @@ Almost 90% of the app that I have developed has an Image upload feature. Along w
 
   * Added Support for Inline Activity Result(Special Thanks to [soareseneves](https://github.com/soareseneves))
   * Fixed issue [#6](https://github.com/Dhaval2404/ImagePicker/issues/6)
-  
+
 ### Version: 1.1
 
   * Optimized Compression Logic
@@ -321,7 +318,7 @@ We'll be really happy if you sent us links to your projects where you use our co
 
 ## License
 
-    Copyright 2019, The Android Open Source Project
+    Copyright 2019-2020, Dhaval Patel
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
