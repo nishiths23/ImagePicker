@@ -36,11 +36,13 @@ class GalleryProvider(activity: ImagePickerActivity) :
 
     //Mime types restrictions for gallery. By default all mime types are valid
     private val mimeTypes: Array<String>
+    private val useGalleryApps: Boolean
 
     init {
         val bundle = activity.intent.extras!!
 
         mimeTypes = bundle.getStringArray(ImagePicker.EXTRA_MIME_TYPES) ?: emptyArray()
+        useGalleryApps = bundle.getBoolean(ImagePicker.EXTRA_USE_GALLERY) ?: false
     }
 
     /**
@@ -67,7 +69,7 @@ class GalleryProvider(activity: ImagePickerActivity) :
      * Start Gallery Intent
      */
     private fun startGalleryIntent() {
-        val galleryIntent = IntentUtils.getGalleryIntent(activity, mimeTypes)
+        val galleryIntent = IntentUtils.getGalleryIntent(activity, mimeTypes, useGalleryApps)
         activity.startActivityForResult(galleryIntent, GALLERY_INTENT_REQ_CODE)
     }
 

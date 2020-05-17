@@ -34,6 +34,7 @@ open class ImagePicker {
         internal const val EXTRA_MAX_WIDTH = "extra.max_width"
         internal const val EXTRA_MAX_HEIGHT = "extra.max_height"
         internal const val EXTRA_SAVE_DIRECTORY = "extra.save_directory"
+        internal const val EXTRA_USE_GALLERY = "extra.use_gallery"
 
         internal const val EXTRA_ERROR = "extra.error"
         internal const val EXTRA_FILE_PATH = "extra.file_path"
@@ -128,6 +129,16 @@ open class ImagePicker {
         private var saveDir: String? = null
 
         /**
+         * Use gallery apps
+         *
+         * After KitKat it is recommended to use documents intent to grab files.
+         * But for some reason only gallery apps is required then this variable will make it happen
+         *
+         *
+         */
+        private var useGallery: Boolean = false
+
+        /**
          * Call this while picking image for fragment.
          */
         constructor(fragment: Fragment) : this(fragment.activity!!) {
@@ -139,6 +150,14 @@ open class ImagePicker {
          */
         fun provider(imageProvider: ImageProvider): Builder {
             this.imageProvider = imageProvider
+            return this
+        }
+
+        /**
+         * Prefer grabbing images from gallery apps over documents
+         */
+        fun preferGalleryOverDocuments(): Builder {
+            useGallery = true
             return this
         }
 
@@ -331,6 +350,7 @@ open class ImagePicker {
                 putLong(EXTRA_IMAGE_MAX_SIZE, maxSize)
 
                 putString(EXTRA_SAVE_DIRECTORY, saveDir)
+                putBoolean(EXTRA_USE_GALLERY, useGallery)
             }
         }
 

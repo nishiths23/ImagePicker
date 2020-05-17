@@ -83,6 +83,7 @@ class MainActivity : AppCompatActivity() {
                     "image/jpeg"
                 )
             )
+            .preferGalleryOverDocuments()
             // Image resolution will be less than 1080 x 1920
             .maxResultSize(1080, 1920)
             .start(GALLERY_IMAGE_REQ_CODE)

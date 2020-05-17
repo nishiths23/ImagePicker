@@ -22,8 +22,8 @@ object IntentUtils {
     /**
      * @return Intent Gallery Intent
      */
-    fun getGalleryIntent(context: Context, mimeTypes: Array<String>): Intent {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+    fun getGalleryIntent(context: Context, mimeTypes: Array<String>, useGalleryApps: Boolean): Intent {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !useGalleryApps) {
             val intent = getGalleryDocumentIntent(mimeTypes)
             if (intent.resolveActivity(context.packageManager) != null) {
                 return intent
